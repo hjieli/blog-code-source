@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lvruan.mapper.ArticleInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.lvruan.po.ArticleInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="a_title" property="aTitle" jdbcType="VARCHAR" />
+    <result column="a_descripte" property="aDescripte" jdbcType="VARCHAR" />
+    <result column="a_datetime" property="aDatetime" jdbcType="TIMESTAMP" />
+    <result column="a_typeid" property="aTypeid" jdbcType="INTEGER" />
+    <result column="a_tags" property="aTags" jdbcType="VARCHAR" />
+    <result column="a_content" property="aContent" jdbcType="VARCHAR" />
+    <result column="a_cover" property="aCover" jdbcType="VARCHAR" />
+    <result column="a_state" property="aState" jdbcType="INTEGER" />
+    <result column="a_viewnum" property="aViewnum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, a_title, a_descripte, a_datetime, a_typeid, a_tags, a_content, a_cover, a_state, 
+    a_viewnum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_articleinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey1" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_articleinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_articleinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lvruan.po.ArticleInfo" >
+    insert into b_articleinfo (id, a_title, a_descripte, 
+      a_datetime, a_typeid, a_tags, 
+      a_content, a_cover, a_state, 
+      a_viewnum)
+    values (#{id,jdbcType=INTEGER}, #{aTitle,jdbcType=VARCHAR}, #{aDescripte,jdbcType=VARCHAR}, 
+      #{aDatetime,jdbcType=TIMESTAMP}, #{aTypeid,jdbcType=INTEGER}, #{aTags,jdbcType=VARCHAR}, 
+      #{aContent,jdbcType=VARCHAR}, #{aCover,jdbcType=VARCHAR}, #{aState,jdbcType=INTEGER}, 
+      #{aViewnum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvruan.po.ArticleInfo" >
+    insert into b_articleinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="aTitle != null" >
+        a_title,
+      </if>
+      <if test="aDescripte != null" >
+        a_descripte,
+      </if>
+      <if test="aDatetime != null" >
+        a_datetime,
+      </if>
+      <if test="aTypeid != null" >
+        a_typeid,
+      </if>
+      <if test="aTags != null" >
+        a_tags,
+      </if>
+      <if test="aContent != null" >
+        a_content,
+      </if>
+      <if test="aCover != null" >
+        a_cover,
+      </if>
+      <if test="aState != null" >
+        a_state,
+      </if>
+      <if test="aViewnum != null" >
+        a_viewnum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="aTitle != null" >
+        #{aTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="aDescripte != null" >
+        #{aDescripte,jdbcType=VARCHAR},
+      </if>
+      <if test="aDatetime != null" >
+        #{aDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aTypeid != null" >
+        #{aTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="aTags != null" >
+        #{aTags,jdbcType=VARCHAR},
+      </if>
+      <if test="aContent != null" >
+        #{aContent,jdbcType=VARCHAR},
+      </if>
+      <if test="aCover != null" >
+        #{aCover,jdbcType=VARCHAR},
+      </if>
+      <if test="aState != null" >
+        #{aState,jdbcType=INTEGER},
+      </if>
+      <if test="aViewnum != null" >
+        #{aViewnum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvruan.po.ArticleInfo" >
+    update b_articleinfo
+    <set >
+      <if test="aTitle != null" >
+        a_title = #{aTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="aDescripte != null" >
+        a_descripte = #{aDescripte,jdbcType=VARCHAR},
+      </if>
+      <if test="aDatetime != null" >
+        a_datetime = #{aDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aTypeid != null" >
+        a_typeid = #{aTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="aTags != null" >
+        a_tags = #{aTags,jdbcType=VARCHAR},
+      </if>
+      <if test="aContent != null" >
+        a_content = #{aContent,jdbcType=VARCHAR},
+      </if>
+      <if test="aCover != null" >
+        a_cover = #{aCover,jdbcType=VARCHAR},
+      </if>
+      <if test="aState != null" >
+        a_state = #{aState,jdbcType=INTEGER},
+      </if>
+      <if test="aViewnum != null" >
+        a_viewnum = #{aViewnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvruan.po.ArticleInfo" >
+    update b_articleinfo
+    set a_title = #{aTitle,jdbcType=VARCHAR},
+      a_descripte = #{aDescripte,jdbcType=VARCHAR},
+      a_datetime = #{aDatetime,jdbcType=TIMESTAMP},
+      a_typeid = #{aTypeid,jdbcType=INTEGER},
+      a_tags = #{aTags,jdbcType=VARCHAR},
+      a_content = #{aContent,jdbcType=VARCHAR},
+      a_cover = #{aCover,jdbcType=VARCHAR},
+      a_state = #{aState,jdbcType=INTEGER},
+      a_viewnum = #{aViewnum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 自定义查询 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  	select * from b_articleinfo order by id desc
+  </select>
+  
+  <select id="findFiveObject" resultMap="BaseResultMap">
+  	select * from b_articleinfo order by id desc limit 0,5  
+  </select>
+  
+  <select id="findCount" resultType="java.lang.Integer">
+  		select count(1) from b_articleinfo
+  </select>
+  
+  <select id="find_like" resultMap="BaseResultMap" parameterType="String">
+      select * from b_articleinfo where a_title like CONCAT('%',#{aTitle},'%')
+  </select>
+</mapper>

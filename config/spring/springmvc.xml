@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc"  
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd  
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd  
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.1.xsd  
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd  
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.2.xsd" >
+        
+   	<!-- 对于注解的Handler可以单个配置
+	实际开发中建议使用组件扫描
+	 -->
+	<!-- <bean class="cn.duanniu.controller.AdvertController2" /> -->
+	<!-- 可以扫描controller、service、...
+	这里让扫描controller，指定controller的包
+	 -->
+	<context:component-scan base-package="com.lvruan.controller"></context:component-scan>
+   
+   <!-- 静态资源解析 JS,CSS,IMG -->
+   <mvc:resources location="/assets/" mapping="/assets/**" />
+	<!-- 注解映射器  -->
+<!--  	 <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" /> -->
+		<!-- 注解适配器  -->
+<!--   		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" >   -->
+<!--  			<property name="messageConverters">  -->
+<!--   				<list>  -->
+<!--   					<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>   -->
+<!--   				</list>  -->
+<!--   			</property>	  -->
+<!--   		</bean>  -->
+<!--  		如果使用<mvc:annotation-driven /> 则不用定义上边的内容。 -->
+ 	 <!-- 使用 mvc:annotation-driven代替上边注解映射器和注解适配器配置
+	mvc:annotation-driven默认加载很多的参数绑定方法，
+	比如json转换解析器就默认加载了，如果使用mvc:annotation-driven不用配置上边的RequestMappingHandlerMapping和RequestMappingHandlerAdapter
+	实际开发时使用mvc:annotation-driven
+	 -->
+<!--   	  <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  -->
+<!--           <property name="messageConverters"> -->
+<!--               <list>  -->
+<!--                   <ref bean="mappingJackson2HttpMessageConverter" />   -->
+<!--                   <ref bean="stringHttpMessageConverter" />   -->
+<!--               </list>   -->
+<!--           </property>   -->
+<!--       </bean> -->
+    <bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/html;charset=UTF-8</value>
+                <value>text/json;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+		<property name="objectMapper">
+		
+           <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+               <property name="dateFormat">
+                   <bean class="java.text.SimpleDateFormat">
+                       <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                   </bean>
+               </property>
+           </bean>
+           
+        </property>
+    </bean>
+    
+    <bean id="stringHttpMessageConverter"    class="org.springframework.http.converter.StringHttpMessageConverter">      
+       <property name="supportedMediaTypes">         
+          <list>                
+              <value>text/html;charset=UTF-8</value>           
+          </list>       
+       </property>  
+ </bean> 
+	 
+	<mvc:annotation-driven validator="validator" conversion-service="conversionService">
+   		<mvc:message-converters> 
+   			<ref bean="mappingJackson2HttpMessageConverter" />		 
+   			<ref bean="stringHttpMessageConverter" />		 
+   		</mvc:message-converters> 
+	</mvc:annotation-driven>
+
+	<!-- 视图解析器
+	解析jsp解析，默认使用jstl标签，classpath下的得有jstl的包
+	 -->
+	
+	 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		 <!-- 配置jsp路径的前缀 -->
+	 	<property name="prefix" value="/" />
+	 	<!-- 配置jsp路径的后缀 -->
+	 	<property name="suffix" value=".jsp" />
+	 </bean>
+	 
+	 <!-- 校验器 -->
+	 <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	 	<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+	 	<property name="validationMessageSource" ref="messageSource" />
+	 </bean>
+	 <!-- 日期转换 绑定 -->
+	 <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	 	<property name="converters">
+	 		<list>
+	 			<bean class="com.lvruan.converter.DateConverter" />
+	 		</list>
+	 	</property>
+	 </bean>
+	 <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	 	<!-- 资源文件名 -->
+	 	<property name="basenames">
+	 		<list>
+	 			<value>classpath:CustomValidationMessages</value>
+	 		</list>
+	 	</property>
+	 	<!-- 资源文件编码格式 -->
+	 	<property name="fileEncodings" value="UTF-8"/>
+	 	<!--对资源文件缓存时间 毫秒 -->
+	 	<property name="cacheSeconds" value="120"/>
+	 </bean>
+	 <!-- 全局异常处理器 -->
+	 <bean class="com.lvruan.exception.CustomExceptionResolver" />
+	 
+	 <!-- 拦截器 -->
+ 	 <!-- <mvc:interceptors> 
+ 	 	多个拦截器，顺序执行
+ 	 	<mvc:interceptor> 
+	 		/**表示所有url包括子url路径
+            <mvc:mapping path="/**"/>
+	 		<mvc:mapping path="/master/**"/>
+				<mvc:exclude-mapping path="/login.do"/> 
+				<mvc:exclude-mapping path="/register.do"/> 
+				<mvc:exclude-mapping path="/add.do"/> 
+				<mvc:exclude-mapping path="/admin/**"/> 
+            <bean class="com.lvruan.interceptor.front.BaseInterceptor"/>
+ 	 		<mvc:exclude-mapping path="/master/user/login"/> 
+ 	 		<mvc:exclude-mapping path="/master/user/agentLogin"/> 
+ 	 		<mvc:exclude-mapping path="/master/user/validateUserName"/> 
+ 	 		<mvc:exclude-mapping path="/master/user/register"/> 
+ 	 		<mvc:exclude-mapping path="/master/user/memberLogin"/> 
+ 	 		<mvc:exclude-mapping path="/master/member/activityCode"/> 
+	 		<bean class="com.duanniu.interceptor.BaseInterceptor" />
+ 	 	</mvc:interceptor> 
+	 	多个拦截器，顺序执行
+ 	 	<mvc:interceptor> 
+	 		/**表示所有url包括子url路径
+            <mvc:mapping path="/back/**"/>
+	 		<mvc:mapping path="/master/**"/>
+ 	 			<mvc:exclude-mapping path="/back/login.do"/> 
+ 	 		<mvc:exclude-mapping path="/master/user/agentLogin"/> 
+ 	 		<mvc:exclude-mapping path="/master/user/validateUserName"/> 
+ 	 		<mvc:exclude-mapping path="/master/user/register"/> 
+ 	 		<mvc:exclude-mapping path="/master/user/memberLogin"/> 
+ 	 		<mvc:exclude-mapping path="/master/member/activityCode"/> 
+	 		<bean class="com.lvruan.interceptor.BaseInterceptor" /> 
+ 	 	</mvc:interceptor> 
+ 	 	
+ 	 </mvc:interceptors>  -->
+ 	 
+ 	 <!-- 处理文件上传 -->
+<bean id="multipartResolver"
+    class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >  
+    <property name="defaultEncoding" value="utf-8"/> <!-- 默认编码 (ISO-8859-1) -->  
+    <property name="maxInMemorySize" value="10240"/> <!-- 最大内存大小 (10240)-->  
+    <property name="uploadTempDir" value="/upload/"/> <!-- 上传后的目录名 (WebUtils#TEMP_DIR_CONTEXT_ATTRIBUTE) -->  
+    <property name="maxUploadSize" value="-1"/> <!-- 最大文件大小，-1为无限止(-1) -->  
+</bean>
+</beans>

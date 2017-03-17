@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lvruan.mapper.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.lvruan.po.ProjectInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="p_time" property="pTime" jdbcType="TIMESTAMP" />
+    <result column="p_name" property="pName" jdbcType="VARCHAR" />
+    <result column="p_author" property="pAuthor" jdbcType="VARCHAR" />
+    <result column="p_reading" property="pReading" jdbcType="INTEGER" />
+    <result column="p_address" property="pAddress" jdbcType="VARCHAR" />
+    <result column="p_typeid" property="pTypeid" jdbcType="INTEGER" />
+    <result column="p_tag" property="pTag" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lvruan.po.ProjectInfo" extends="BaseResultMap" >
+    <result column="p_content" property="pContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, p_time, p_name, p_author, p_reading, p_address, p_typeid, p_tag
+  </sql>
+  <sql id="Blob_Column_List" >
+    p_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_projectinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_projectinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lvruan.po.ProjectInfo" >
+    insert into b_projectinfo (id, p_time, p_name, 
+      p_author, p_reading, p_address, 
+      p_typeid, p_tag, p_content
+      )
+    values (#{id,jdbcType=INTEGER}, #{pTime,jdbcType=TIMESTAMP}, #{pName,jdbcType=VARCHAR}, 
+      #{pAuthor,jdbcType=VARCHAR}, #{pReading,jdbcType=INTEGER}, #{pAddress,jdbcType=VARCHAR}, 
+      #{pTypeid,jdbcType=INTEGER}, #{pTag,jdbcType=VARCHAR}, #{pContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvruan.po.ProjectInfo" >
+    insert into b_projectinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pTime != null" >
+        p_time,
+      </if>
+      <if test="pName != null" >
+        p_name,
+      </if>
+      <if test="pAuthor != null" >
+        p_author,
+      </if>
+      <if test="pReading != null" >
+        p_reading,
+      </if>
+      <if test="pAddress != null" >
+        p_address,
+      </if>
+      <if test="pTypeid != null" >
+        p_typeid,
+      </if>
+      <if test="pTag != null" >
+        p_tag,
+      </if>
+      <if test="pContent != null" >
+        p_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pTime != null" >
+        #{pTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pAuthor != null" >
+        #{pAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="pReading != null" >
+        #{pReading,jdbcType=INTEGER},
+      </if>
+      <if test="pAddress != null" >
+        #{pAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pTypeid != null" >
+        #{pTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="pTag != null" >
+        #{pTag,jdbcType=VARCHAR},
+      </if>
+      <if test="pContent != null" >
+        #{pContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvruan.po.ProjectInfo" >
+    update b_projectinfo
+    <set >
+     <!--  <if test="pTime != null" >
+        p_time = #{pTime,jdbcType=TIMESTAMP},
+      </if> -->
+      <if test="pName != null" >
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pAuthor != null" >
+        p_author = #{pAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="pReading != null" >
+        p_reading = #{pReading,jdbcType=INTEGER},
+      </if>
+      <if test="pAddress != null" >
+        p_address = #{pAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pTypeid != null" >
+        p_typeid = #{pTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="pTag != null" >
+        p_tag = #{pTag,jdbcType=VARCHAR},
+      </if>
+      <if test="pContent != null" >
+        p_content = #{pContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lvruan.po.ProjectInfo" >
+    update b_projectinfo
+    set p_time = #{pTime,jdbcType=TIMESTAMP},
+      p_name = #{pName,jdbcType=VARCHAR},
+      p_author = #{pAuthor,jdbcType=VARCHAR},
+      p_reading = #{pReading,jdbcType=INTEGER},
+      p_address = #{pAddress,jdbcType=VARCHAR},
+      p_typeid = #{pTypeid,jdbcType=INTEGER},
+      p_tag = #{pTag,jdbcType=VARCHAR},
+      p_content = #{pContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvruan.po.ProjectInfo" >
+    update b_projectinfo
+    set p_time = #{pTime,jdbcType=TIMESTAMP},
+      p_name = #{pName,jdbcType=VARCHAR},
+      p_author = #{pAuthor,jdbcType=VARCHAR},
+      p_reading = #{pReading,jdbcType=INTEGER},
+      p_address = #{pAddress,jdbcType=VARCHAR},
+      p_typeid = #{pTypeid,jdbcType=INTEGER},
+      p_tag = #{pTag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 自定义查询 -->
+  <select id="findAll" resultMap="BaseResultMap">
+   select * from b_projectinfo order by id desc
+  </select>
+    
+  <select id="select_like" resultMap="ResultMapWithBLOBs" parameterType="String">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" /> 
+    from b_projectinfo 
+    where p_name like CONCAT('%', #{pName}, '%')
+  </select>
+  
+</mapper>

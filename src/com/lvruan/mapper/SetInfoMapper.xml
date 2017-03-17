@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lvruan.mapper.SetInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.lvruan.po.SetInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="s_name" property="sName" jdbcType="VARCHAR" />
+    <result column="s_author" property="sAuthor" jdbcType="VARCHAR" />
+    <result column="s_keyword" property="sKeyword" jdbcType="VARCHAR" />
+    <result column="s_descripte" property="sDescripte" jdbcType="VARCHAR" />
+    <result column="s_bottomstr" property="sBottomstr" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, s_name, s_author, s_keyword, s_descripte, s_bottomstr
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_setinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_setinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lvruan.po.SetInfo" >
+    insert into b_setinfo (id, s_name, s_author, 
+      s_keyword, s_descripte, s_bottomstr
+      )
+    values (#{id,jdbcType=INTEGER}, #{sName,jdbcType=VARCHAR}, #{sAuthor,jdbcType=VARCHAR}, 
+      #{sKeyword,jdbcType=VARCHAR}, #{sDescripte,jdbcType=VARCHAR}, #{sBottomstr,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvruan.po.SetInfo" >
+    insert into b_setinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sName != null" >
+        s_name,
+      </if>
+      <if test="sAuthor != null" >
+        s_author,
+      </if>
+      <if test="sKeyword != null" >
+        s_keyword,
+      </if>
+      <if test="sDescripte != null" >
+        s_descripte,
+      </if>
+      <if test="sBottomstr != null" >
+        s_bottomstr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sName != null" >
+        #{sName,jdbcType=VARCHAR},
+      </if>
+      <if test="sAuthor != null" >
+        #{sAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="sKeyword != null" >
+        #{sKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="sDescripte != null" >
+        #{sDescripte,jdbcType=VARCHAR},
+      </if>
+      <if test="sBottomstr != null" >
+        #{sBottomstr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvruan.po.SetInfo" >
+    update b_setinfo
+    <set >
+      <if test="sName != null" >
+        s_name = #{sName,jdbcType=VARCHAR},
+      </if>
+      <if test="sAuthor != null" >
+        s_author = #{sAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="sKeyword != null" >
+        s_keyword = #{sKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="sDescripte != null" >
+        s_descripte = #{sDescripte,jdbcType=VARCHAR},
+      </if>
+      <if test="sBottomstr != null" >
+        s_bottomstr = #{sBottomstr,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvruan.po.SetInfo" >
+    update b_setinfo
+    set s_name = #{sName,jdbcType=VARCHAR},
+      s_author = #{sAuthor,jdbcType=VARCHAR},
+      s_keyword = #{sKeyword,jdbcType=VARCHAR},
+      s_descripte = #{sDescripte,jdbcType=VARCHAR},
+      s_bottomstr = #{sBottomstr,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 自定义 -->
+  <select id="findSet" resultMap="BaseResultMap">
+  	select * from b_setinfo
+  </select>
+</mapper>

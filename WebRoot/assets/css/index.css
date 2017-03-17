@@ -1,0 +1,42 @@
+﻿*{
+    
+}
+
+.bg{
+    position: absolute; 
+    top: 0px; 
+    bottom: 0px; 
+    left: 0px; 
+    right: 0px; 
+    background-color:black;
+}
+.content{
+    position: absolute; 
+    top: 40%; 
+    bottom: 50%; 
+    left: 40%; 
+    right: 40%;
+    z-index:100000; 
+    text-align:center; 
+    color:white; 
+}
+
+.content a p{
+    border-bottom: double 5px; 
+    border-top: double 5px; 
+    width: 140px; 
+    margin: 0 auto; 
+    font-size: 20px; 
+    padding: 5px;
+    font-family:'微软雅黑';
+    font-weight:bold;
+}
+a{
+    color:white;
+}
+
+a:hover{
+    cursor:pointer;
+    text-decoration:none;
+    color:white;
+}
